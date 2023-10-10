@@ -1,9 +1,6 @@
 
 
-#include <iostream>
-#include <SFML/Graphics.hpp>
-using namespace std;
-using namespace sf;
+#include "Class/List.h"
 
 
 int main()
@@ -29,6 +26,6 @@ int main()
 		window.display();
 	}
 
-	//nosenosenosense
+	
     return 0;
 }
