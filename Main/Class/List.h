@@ -1,20 +1,17 @@
 #pragma once
 
-#include <iostream>
-#include <SFML/Graphics.hpp>
-
-using namespace std;
-using namespace sf;
+#include "Game.h"
 
 template<typename T>
 class List {
 private:
 	struct Nodo {
 		T data;//put here the info that I will need in each nodo
-
+		int x;//coordenates
+		int y;
 		Nodo* next;
 		Nodo* prev;
-		Nodo(T _data) : data(_data), next(nullptr), prev(nullptr) {}
+		Nodo(T _data, int _x, int _y) : data(_data), x(_x), y(_y), next(nullptr), prev(nullptr) {}
 	};
 
 	Nodo* header;
@@ -24,13 +21,14 @@ public:
 
 	~List() {
 		while (header) {
-			Nodo* temp = cabeza;
-			cabeza = cabeza->siguiente;
+			Nodo* temp = header;
+			header = header->siguiente;
 			temp = nullptr;
 			delete temp;
 		}
 
 	}
+
 
 
 };
