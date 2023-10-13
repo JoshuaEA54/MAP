@@ -6,7 +6,7 @@
 int main()
 {
 	
-	Game game;
+	Map game;
 	game.map();
 
     return 0;
