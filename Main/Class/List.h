@@ -1,12 +1,15 @@
 #pragma once
+#include <iostream>
+#include <SFML/Graphics.hpp>
 
-#include "Game.h"
+using namespace std;
+using namespace sf;
 
 template<typename T>
-class Route {
+class List {
 private:
 	struct Nodo {
-		T data;//put here the info that I will need in each nodo
+		T data;//coordenates for each nodo
 		Nodo* next;
 		Nodo* prev;
 		Nodo(T _data) : data(_data), next(nullptr), prev(nullptr) {}
@@ -14,13 +17,11 @@ private:
 	};
 
 	Nodo* header;
-	String nameOfRoute;
-	Color color;
-
+	
 public:
-	Route() :header(nullptr), nameOfRoute(""), color(Color::Red) {}
+	List() :header(nullptr) {}
 
-	~Route() {
+	~List() {
 		while (header) {
 			Nodo* temp = header;
 			header = header->next;
@@ -30,11 +31,7 @@ public:
 
 	}
 
-    void setColor(Color _color) { this->color = _color; }
-	void setNameOfRoute(string _nameOfRoute) { this->nameOfRoute = _nameOfRoute; }
-
-	string getNameOfRoute() { return nameOfRoute; }
-	Color getColor() { return color; }
+	Nodo* getHeader() { return header; }
 
 	void addNodoInTheEnd(T value) {
 		Nodo* nodoAdded = new Nodo(value);
@@ -52,11 +49,11 @@ public:
 		}
 	}
 
-
 };
 
 struct coordenates {
 	float x;
 	float y;
+	coordenates() { x = -1; y = -1; }
 	coordenates(float _x, float _y) : x(_x), y(_y){}
 };
