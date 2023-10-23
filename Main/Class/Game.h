@@ -42,10 +42,9 @@ public:
 		amountOfRoutes += 1;
 
 		//memory part
-		nodoAdded->prev = nullptr;
+		nodoAdded = nullptr;
 		delete nodoAdded;
-		aux->next = nullptr;
-		aux->prev = nullptr;
+		aux = nullptr;
 		delete aux;
 	}
 
@@ -77,10 +76,13 @@ public:
 
 		Event event;
 
+		Route<coordenates> newRoute;
+
 		while (window.isOpen()) {
 
 			Vector2i mousePosition = Mouse::getPosition(window);
 			Vector2f mapPosition = window.mapPixelToCoords(mousePosition);
+			
 			// cada iteracion hacer un set del atributo map de mapPositionk que tiene las coordenadas del mouse en el mapa
 
 			while (window.pollEvent(event)) {
@@ -96,6 +98,10 @@ public:
 						if (addRoute.getGlobalBounds().contains(mapPosition)) {
 							cout << " Digite el nombre de la nueva ruta: ";
 							cin >> auxNameOfRoute;
+
+							Route<coordenates> aux;
+							newRoute = aux;
+
 							cout << " Ahora digite el inicio de la nueva ruta en el mapa..." << endl;
 							// it would get inside the editor mode
 							editorMode = true;
@@ -106,8 +112,15 @@ public:
 				else {
 
 					if (event.type == Event::MouseButtonPressed) {
-						//considerar que lo presione en el sprite del mapa
-					}
+						coordenates coords(mapPosition.x, mapPosition.y);
+						cout << coords.getX() << " " << coords.getY() << endl;
+                    
+						newRoute.setNameOfRoute(auxNameOfRoute);
+						newRoute.addNodoInTheEnd(coords);
+                    }
+						// ya cuando tengo la ruta completamente creada y le doy al boton guardar
+						// llamar al metodo addRouteInTheList(newRoute);
+						
 					//addRouteMethod(worldPosition);
 					//put the condition that if the button 'finalizar' is pressed , editorMode is false
 				}
