@@ -14,9 +14,9 @@ private:
 		Nodo(T _route) : route(_route), next(nullptr), prev(nullptr) {}
 	};
 	Nodo* header;
-	
+
 	int amountOfRoutes;
-	
+
 public:
 	Map() : header(nullptr), amountOfRoutes(0) {}
 
@@ -56,9 +56,9 @@ public:
 
 		Texture mapTex;
 		mapTex.loadFromFile("Images/MyMap.jpg");
-
 		Sprite sMap = Sprite(mapTex);
 
+		//boton de agregar ruta
 		RectangleShape addRoute = RectangleShape(Vector2f(200, 80));
 		addRoute.setPosition(30, 660);//30 660
 		addRoute.setOutlineColor(Color::Black);
@@ -71,6 +71,19 @@ public:
 		buttonText.setPosition(70, 680);
 		buttonText.setFillColor(Color::Black);
 
+		//boton de finalizar ruta
+		RectangleShape endRoute = RectangleShape(Vector2f(200, 80));
+		endRoute.setPosition(1120, 660);//30 660
+		endRoute.setOutlineColor(Color::Black);
+		endRoute.setOutlineThickness(2.5);
+		endRoute.setFillColor(Color(25, 25, 110, 230));
+
+		Font font2;
+		font2.loadFromFile("Images/arial_narrow_7.ttf");
+		Text buttonText2 = Text("End Route", font2, 28);
+		buttonText2.setPosition(1160, 680);
+		buttonText2.setFillColor(Color::Black);
+
 		bool editorMode = false;
 		string auxNameOfRoute = "";
 
@@ -82,8 +95,6 @@ public:
 
 			Vector2i mousePosition = Mouse::getPosition(window);
 			Vector2f mapPosition = window.mapPixelToCoords(mousePosition);
-			
-			// cada iteracion hacer un set del atributo map de mapPositionk que tiene las coordenadas del mouse en el mapa
 
 			while (window.pollEvent(event)) {
 
@@ -91,38 +102,40 @@ public:
 					window.close();
 				}
 				if (!editorMode) {
-					IluminateAddRouteButton(addRoute, mapPosition);
+					IluminateButton(addRoute, mapPosition);
 
-					if (event.type == Event::MouseButtonPressed) {
+					if (event.type == Event::MouseButtonPressed && addRoute.getGlobalBounds().contains(mapPosition)) {
 
-						if (addRoute.getGlobalBounds().contains(mapPosition)) {
-							cout << " Digite el nombre de la nueva ruta: ";
-							cin >> auxNameOfRoute;
+						cout << " Digite el nombre de la nueva ruta: ";
+						cin >> auxNameOfRoute;
 
-							Route<coordenates> aux;
-							newRoute = aux;
+						Route<coordenates> aux;
+						newRoute = aux;
 
-							cout << " Ahora digite el inicio de la nueva ruta en el mapa..." << endl;
-							// it would get inside the editor mode
-							editorMode = true;
-						}
+						cout << " Ahora digite el inicio de la nueva ruta en el mapa..." << endl;
+						// it would get inside the editor mode
+						editorMode = true;
+
 
 					}
 				}
 				else {
+					IluminateButton(endRoute, mapPosition);
 
 					if (event.type == Event::MouseButtonPressed) {
 						coordenates coords(mapPosition.x, mapPosition.y);
 						cout << coords.getX() << " " << coords.getY() << endl;
-                    
+
 						newRoute.setNameOfRoute(auxNameOfRoute);
 						newRoute.addNodoInTheEnd(coords);
-                    }
-						// ya cuando tengo la ruta completamente creada y le doy al boton guardar
-						// llamar al metodo addRouteInTheList(newRoute);
+					}
+					if (endRoute.getGlobalBounds().contains(mapPosition) && event.type == Event::MouseButtonPressed) {
 						
-					//addRouteMethod(worldPosition);
-					//put the condition that if the button 'finalizar' is pressed , editorMode is false
+						editorMode = false;
+                        // ya cuando tengo la ruta completamente creada y le doy al boton guardar
+					    // llamar al metodo addRouteInTheList(newRoute);
+					}
+					
 				}
 			}
 
@@ -130,15 +143,17 @@ public:
 
 			window.draw(sMap);
 			window.draw(addRoute);
+			window.draw(endRoute);
 			window.draw(buttonText);
+			window.draw(buttonText2);
 
 			window.display();
 		}
 	}
 
-	void IluminateAddRouteButton(RectangleShape& addRoute, Vector2f& worldPosition)
+	void IluminateButton(RectangleShape& addRoute, Vector2f& mapPosition)
 	{
-		if (addRoute.getGlobalBounds().contains(worldPosition)) {
+		if (addRoute.getGlobalBounds().contains(mapPosition)) {
 			addRoute.setFillColor(Color(25, 25, 110, 220));
 		}
 		else {
@@ -148,8 +163,7 @@ public:
 
 };
 
-	
 
-	
 
-	
+
+
