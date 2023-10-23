@@ -19,12 +19,12 @@ private:
 
 	};
 	Nodo* header;
-	//List<T>* route;
+	
 	String nameOfRoute;
 	Color color;
 
 public:
-	Route(): header(nullptr), nameOfRoute(""), color(Color::Red){}
+	Route(): header(nullptr), nameOfRoute(""), color(Color::Red){} 
 	~Route() {
 		while (header) {
 			Nodo* temp = header;
@@ -44,13 +44,12 @@ public:
 
 	void addNodoInTheEnd(T value) {
 		Nodo* nodoAdded = new Nodo(value);
-		Nodo* aux;
+		Nodo* aux = header;
 
 		if (!header) {
 			header = nodoAdded;
 		}
 		else {// means that the head next is with a nodo
-			aux = header;
 			while (aux->next) {
 				aux = aux->next;
 			}
@@ -58,10 +57,9 @@ public:
 			aux->next->prev = aux;
 		}
 
-		nodoAdded->prev = nullptr;
+		nodoAdded = nullptr;
 		delete nodoAdded;
-		aux->next = nullptr;
-		aux->prev = nullptr;
+		aux = nullptr;
 		delete aux;
 	}
 	
@@ -73,4 +71,8 @@ struct coordenates {
 	float y;
 	coordenates() { x = -1; y = -1; }
 	coordenates(float _x, float _y) : x(_x), y(_y) {}
+	void setX(float _x) { this->x = _x; }
+	void setY(float _y) { this->y = _y; }
+	float getX() { return x; }
+	float getY() { return y; }
 };
